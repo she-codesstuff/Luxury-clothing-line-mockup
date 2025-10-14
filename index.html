@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Prestiva | Luxury Reimagined</title>
+  <style>
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    html, body {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background: radial-gradient(circle at top, #0e0e0e, #050505);
+      color: #eee;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 999;
+      animation: slideDown 1s ease;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: #b7144a;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 25px;
+      list-style: none;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #ddd;
+      font-weight: 500;
+      position: relative;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: #f48fb1;
+      transition: width 0.3s;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    #themeToggle {
+      background: none;
+      border: 2px solid #d64d7b;
+      border-radius: 50%;
+      color: #f48fb1;
+      width: 35px;
+      height: 35px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    #themeToggle:hover {
+      background: #f48fb1;
+      color: black;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      height: 90vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      color: white;
+    }
+
+    .hero video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.5) 10%, rgba(0,0,0,0.5) 90%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      color: white;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      color: #f48fb1;
+      letter-spacing: 2px;
+    }
+
+    .hero-content h2 {
+      font-size: 2rem;
+      color: #fff;
+    }
+
+    .hero-content p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      line-height: 1.5;
+      color: #ddd;
+    }
+
+    .hero-btn {
+      padding: 12px 30px;
+      font-size: 1rem;
+      background: linear-gradient(135deg, #f48fb1, #d81b60);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .hero-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(216,27,96,0.5);
+    }
+
+    /* ===== SPARKLE ANIMATION ===== */
+    #sparkleCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ===== SECTIONS ===== */
+    section { padding: 100px 60px; text-align: center; opacity: 0; transform: translateY(50px); transition: all 1s ease; }
+    section.visible { opacity: 1; transform: translateY(0); }
+
+    h3 { font-size: 2rem; margin-bottom: 50px; color: #f48fb1; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 35px;
+      justify-items: center;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 10px;
+      overflow: hidden;
+      width: 220px;
+      height: 300px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card img {
+      width: 100%;
+      height: 70%;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .card p {
+      margin-top: 10px;
+      color: #f8bbd0;
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 30px rgba(244, 143, 177, 0.4);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #000;
+      padding: 80px 20px;
+      text-align: center;
+      color: #aaa;
+    }
+
+    footer h4 { color: #f48fb1; margin-bottom: 20px; font-size: 1.8rem; }
+    footer p { max-width: 700px; margin: 0 auto; line-height: 1.8; }
+    footer .copy { margin-top: 20px; color: #777; font-size: 0.9rem; }
+
+    /* ===== BACK TO TOP ===== */
+    #backToTop {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      border: none;
+      background: linear-gradient(135deg, #f48fb1, #d81b60);
+      color: white;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 0 15px rgba(216,27,96,0.5);
+    }
+    #backToTop.show { opacity: 1; transform: scale(1.1); }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>La Prestiva</h1>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#skincare">Skincare</a></li>
+        <li><a href="#boots">Boots</a></li>
+        <li><a href="#women">Fashion</a></li>
+        <li><a href="#men">Perfume</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+    <button id="themeToggle">🌙</button>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <video id="heroVideo" loop muted playsinline>
+      <source src="video2.mp4" type="video/mp4">
+    </video>
+    <canvas id="sparkleCanvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>La Prestiva</h1>
+      <h2>Luxury at One Stop</h2>
+      <p>Discover beauty and fashion that shine beyond the ordinary.</p>
+      <button id="playVideoBtn" class="hero-btn">Play Experience</button>
+      <button class="hero-btn">Shop Now</button>
+    </div>
+  </section>
+
+  <section id="skincare">
+    <h3>New Arrivals in Skincare</h3>
+    <div class="product-grid">
+      <div class="card"><img src="moisturiser.jpg"><p>Hydrating Moisturiser — ₹899</p></div>
+      <div class="card"><img src="sunscreen.jpg"><p>SPF 50 Sunscreen — ₹749</p></div>
+      <div class="card"><img src="serum.jpg"><p>Vitamin C Serum — ₹1,099</p></div>
+      <div class="card"><img src="cleanser.jpg"><p>Refreshing Cleanser — ₹649</p></div>
+    </div>
+  </section>
+
+  <section id="boots">
+    <h3>Trending Boots</h3>
+    <div class="product-grid">
+      <div class="card"><img src="boots1.jpg"><p>Classic Leather Boots — ₹3,999</p></div>
+      <div class="card"><img src="boots2.jpg"><p>Chunky Platform Boots — ₹4,499</p></div>
+      <div class="card"><img src="boots3.jpg"><p>Winter Fur Boots — ₹3,299</p></div>
+      <div class="card"><img src="boots4.jpg"><p>Elegant Heeled Boots — ₹4,099</p></div>
+    </div>
+  </section>
+
+  <section id="women">
+    <h3>Women's Fashion Collection</h3>
+    <div class="product-grid">
+      <div class="card"><img src="dress1.jpg"><p>Silk Evening Dress — ₹5,999</p></div>
+      <div class="card"><img src="dress2.jpg"><p>Elegant yellow Gown — ₹6,499</p></div>
+      <div class="card"><img src="dress3.jpg"><p>Classic Black Dress — ₹4,799</p></div>
+      <div class="card"><img src="dress4.jpg"><p>Casual Summer Dress — ₹2,499</p></div>
+    </div>
+  </section>
+
+  <section id="men">
+    <h3>Our Perfume Line</h3>
+    <div class="product-grid">
+      <div class="card"><img src="per1.jpg"><p>Prestiva Bloom — ₹2,999</p></div>
+      <div class="card"><img src="per2.jpg"><p>Midnight Elegance — ₹3,499</p></div>
+      <div class="card"><img src="per3.jpg"><p>Amber Whisper — ₹3,199</p></div>
+      <div class="card"><img src="per4.jpg"><p>Rose Luxe — ₹2,799</p></div>
+    </div>
+  </section>
+
+  <footer id="about">
+    <h4>About Us</h4>
+    <p>La Prestiva curates premium fashion and beauty from around the globe, redefining everyday elegance with timeless class. Our mission is to inspire confidence through luxurious simplicity and innovative style.</p>
+    <p class="copy">© 2025 La Prestiva. All Rights Reserved.</p>
+  </footer>
+
+  <button id="backToTop">↑</button>
+
+  <script>
+    // BACK TO TOP
+    const backToTop = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      backToTop.classList.toggle("show", window.scrollY > 300);
+    });
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // SECTION FADE IN
+    const sections = document.querySelectorAll("section");
+    window.addEventListener("scroll", () => {
+      const trigger = window.innerHeight * 0.85;
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < trigger) sec.classList.add("visible");
+      });
+    });
+
+    // DARK/LIGHT MODE
+    const toggle = document.getElementById("themeToggle");
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("light-mode");
+      toggle.textContent = document.body.classList.contains("light-mode") ? "☀️" : "🌙";
+      document.body.style.background =
+        document.body.classList.contains("light-mode")
+          ? "linear-gradient(to bottom, #fff, #f8bbd0)"
+          : "radial-gradient(circle at top, #0e0e0e, #050505)";
+      document.body.style.color = document.body.classList.contains("light-mode")
+          ? "#111" : "#eee";
+    });
+
+    // PLAY VIDEO AUDIO
+    const video = document.getElementById('heroVideo');
+    const playBtn = document.getElementById('playVideoBtn');
+    playBtn.addEventListener('click', () => {
+      video.muted = false;
+      video.play();
+      playBtn.style.display = 'none';
+    });
+
+    // CARD 3D TILT
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / 20).toFixed(2);
+        const rotateY = ((centerX - x) / 20).toFixed(2);
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "rotateX(0) rotateY(0) scale(1)";
+      });
+    });
+
+    // SPARKLE ANIMATION
+    const canvas = document.getElementById('sparkleCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+
+    let sparkles = Array.from({length: 40}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * 0.9,
+      size: Math.random() * 2,
+      alpha: Math.random(),
+      speed: 0.3 + Math.random() * 0.4
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      sparkles.forEach(s => {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(244,143,177,${s.alpha})`;
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
+        s.y -= s.speed;
+        s.alpha -= 0.005;
+        if (s.alpha <= 0) {
+          s.x = Math.random() * canvas.width;
+          s.y = canvas.height;
+          s.alpha = 1;
+        }
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
